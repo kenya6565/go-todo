@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"go-todo/typefile"
+	"go-todo/model"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,6 +10,12 @@ import (
 )
 
 const defaultPort = "8090"
+
+var tpl *template.Template
+
+func init() {
+	tpl = template.Must(template.ParseFiles("index.html"))
+}
 
 func start(w http.ResponseWriter, req *http.Request) {
 	// JSON ファイルを読み出し用にオープン
@@ -19,7 +25,7 @@ func start(w http.ResponseWriter, req *http.Request) {
 	}
 	defer file.Close()
 
-	var companyObj typefile.Company
+	var companyObj []model.Company
 	decoder := json.NewDecoder(file)
 	if err := decoder.Decode(&companyObj); err != nil {
 		log.Fatal(err)
@@ -27,15 +33,12 @@ func start(w http.ResponseWriter, req *http.Request) {
 
 	log.Printf("%+v\n", companyObj)
 
-	t, err := template.ParseFiles("index.html")
-
-	if err := t.Execute(w, companyObj); err != nil {
+	if err := tpl.Execute(w, companyObj); err != nil {
 		panic(err.Error())
 	}
 }
 
 func main() {
-
 	http.HandleFunc("/", start)
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	http.ListenAndServe(":8090", nil)

@@ -11,7 +11,10 @@
   <body>
     <h1>MyTechBlog</h1>
 
-    <p>{{.Name}}</p>
-    <p>{{.Description}}</p>
+    <ul>
+      {{range .}}
+      <li>{{.Name}} - {{.Description}} - {{.Address}}</li>
+      {{end}}
+    </ul>
   </body>
 </html>

@@ -1,4 +1,17 @@
-{
-  "Name": "Xytrex Co.",
-  "Description": "Industrial Cleaning Supply Company"
-}
+[
+  {
+    "Name": "Xytrex Co.",
+    "Description": "Industrial Cleaning Supply Company",
+    "Address": "Tokyo city"
+  },
+  {
+    "Name": "Watson and Powell, Inc.",
+    "Description": "Law firm. New York Headquarters",
+    "Address": "Nagoya city"
+  },
+  {
+    "Name": "Zeus Co.",
+    "Description": "Industrial Cleaning Supply Company",
+    "Address": "Osaka city"
+  }
+]
