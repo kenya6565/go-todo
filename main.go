@@ -1,17 +1,21 @@
 package main
 
 import (
-	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"html/template"
 )
 
 const defaultPort = "8090"
 
 func hello(w http.ResponseWriter, req *http.Request) {
-
-	fmt.Fprintf(w, "hello\n")
+	t, err := template.ParseFiles("index.html")
+	if err != nil {
+		panic(err.Error())
+	}
+	if err := t.Execute(w, nil); err != nil {
+		panic(err.Error())
+	}
 }
 
 func main() {
