@@ -17,23 +17,27 @@ func init() {
 	tpl = template.Must(template.ParseFiles("index.html"))
 }
 
-func start(w http.ResponseWriter, req *http.Request) {
-	// JSON ファイルを読み出し用にオープン
-	file, err := os.Open("article.json")
-	if err != nil {
-		panic(err.Error())
-	}
-	defer file.Close()
-
+func convertJson(file *os.File) []model.Company {
 	var companyObj []model.Company
 	decoder := json.NewDecoder(file)
 	if err := decoder.Decode(&companyObj); err != nil {
 		log.Fatal(err)
 	}
-
 	log.Printf("%+v\n", companyObj)
+	return companyObj
+}
 
-	if err := tpl.Execute(w, companyObj); err != nil {
+func start(w http.ResponseWriter, req *http.Request) {
+	// Open Json file
+	file, err := os.Open("article.json")
+	if err != nil {
+		panic(err.Error())
+	}
+	// Close at the end of start method
+	defer file.Close()
+
+	companyStruct := convertJson(file)
+	if err := tpl.Execute(w, companyStruct); err != nil {
 		panic(err.Error())
 	}
 }
