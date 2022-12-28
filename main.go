@@ -1,29 +1,39 @@
 package main
 
 import (
+	"encoding/json"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
-type Person struct {
-	Name string
-	Age  int
+type Company struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 const defaultPort = "8090"
-const message = "This is a test message"
 
 func hello(w http.ResponseWriter, req *http.Request) {
-	p1 := Person{
-		Name: "hogefuga",
-		Age:  28,
-	}
-	t, err := template.ParseFiles("index.html")
+	// JSON ファイルを読み出し用にオープン
+	file, err := os.Open("article.json")
 	if err != nil {
 		panic(err.Error())
 	}
-	if err := t.Execute(w, p1); err != nil {
+	defer file.Close()
+
+	var companyObj Company
+	decoder := json.NewDecoder(file)
+	if err := decoder.Decode(&companyObj); err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("%+v\n", companyObj)
+
+	t, err := template.ParseFiles("index.html")
+
+	if err := t.Execute(w, companyObj); err != nil {
 		panic(err.Error())
 	}
 }
