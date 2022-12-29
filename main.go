@@ -51,4 +51,8 @@ func main() {
 	fmt.Println(models.Db)
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	http.ListenAndServe(":8090", nil)
+	u := &model.User()
+	u.Name = "test"
+	u.Email = "test@test.com"
+	u.Password = "test"
 }

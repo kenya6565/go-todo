@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Company struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -11,4 +13,13 @@ type ConfigList struct {
 	SQLDriver string
 	DbName    string
 	LogFile   string
+}
+
+type User struct {
+	ID        int
+	UUID      string
+	Name      string
+	Email     string
+	PassWord  string
+	CreatedAt time.Time
 }
