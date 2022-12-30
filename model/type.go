@@ -23,3 +23,10 @@ type User struct {
 	PassWord  string
 	CreatedAt time.Time
 }
+
+type Todo struct {
+	ID        int
+	Content   string
+	UserID    int
+	CreatedAt time.Time
+}
