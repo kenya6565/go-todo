@@ -22,8 +22,13 @@ func init() {
 	// models.CreateUser(u)
 	u, _ := models.GetUser(2)
 	models.CreateTodo(&u, "これはtestです")
-	t, _ := models.GetTodo(6)
-	fmt.Println(t)
+	// t, _ := models.GetTodo(6)
+	// fmt.Println(t)
+	todos, err := models.GetTodos()
+	fmt.Println(err)
+	for _, v := range todos {
+		fmt.Println(v)
+	}
 
 	// fmt.Println(t)
 	// u.Name = "test2"
