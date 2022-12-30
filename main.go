@@ -23,6 +23,11 @@ func init() {
 	// models.CreateUser(u)
 	u, _ := models.GetUser(1)
 	fmt.Println(u)
+	u.Name = "test2"
+	u.Email = "test2@example.com"
+	models.UpdateUser(&u)
+	u, _ = models.GetUser(1)
+	fmt.Println(u)
 }
 
 func convertJson(file *os.File) []model.Company {
@@ -53,7 +58,7 @@ func start(w http.ResponseWriter, req *http.Request) {
 func main() {
 	http.HandleFunc("/", start)
 	fmt.Println(config.Config.Port)
-	fmt.Println(models.Db)
-	log.Printf("connect to http://localhost:%s/", defaultPort)
+	// fmt.Println(models.Db)
+	// log.Printf("connect to http://localhost:%s/", defaultPort)
 	http.ListenAndServe(":8090", nil)
 }

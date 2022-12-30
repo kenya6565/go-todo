@@ -27,6 +27,7 @@ func CreateUser(u *model.User) (err error) {
 	return err
 }
 
+// display a specific user in sqlite3 database
 func GetUser(id int) (user model.User, err error) {
 	user = model.User{}
 	cmd := `select id, uuid, name, email, password, created_at 
@@ -40,4 +41,17 @@ func GetUser(id int) (user model.User, err error) {
 		&user.CreatedAt,
 	)
 	return user, err
+}
+
+// update a specific user in sqlite3 database
+func UpdateUser(u *model.User) (err error) {
+	cmd := `update users set name =?, email =? where id =?`
+	_, err = Db.Exec(cmd,
+		u.Name,
+		u.Email,
+		u.ID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return err
 }
