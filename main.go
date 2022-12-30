@@ -27,6 +27,8 @@ func init() {
 	u.Email = "test2@example.com"
 	models.UpdateUser(&u)
 	u, _ = models.GetUser(1)
+	models.DeleteUser(&u)
+	u, _ = models.GetUser(1)
 	fmt.Println(u)
 }
 
