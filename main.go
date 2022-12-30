@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-todo/app/models"
+	"go-todo/config"
 	"go-todo/model"
 	"html/template"
 	"log"
@@ -17,6 +18,11 @@ var tpl *template.Template
 
 func init() {
 	tpl = template.Must(template.ParseFiles("index.html"))
+	// u := &model.User{Name: "test", Email: "test@example.com", PassWord: "test@example.com"}
+	// fmt.Println(u)
+	// models.CreateUser(u)
+	u, _ := models.GetUser(1)
+	fmt.Println(u)
 }
 
 func convertJson(file *os.File) []model.Company {
@@ -46,14 +52,8 @@ func start(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", start)
-	u := &model.User{}
-	u.Name = "test"
-	u.Email = "test@test.com"
-	u.PassWord = "test"
-	fmt.Println(u)
-	models.CreateUser(u)
-	// fmt.Println(config.Config.Port)
-	// fmt.Println(models.Db)
-	// log.Printf("connect to http://localhost:%s/", defaultPort)
+	fmt.Println(config.Config.Port)
+	fmt.Println(models.Db)
+	log.Printf("connect to http://localhost:%s/", defaultPort)
 	http.ListenAndServe(":8090", nil)
 }

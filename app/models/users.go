@@ -26,3 +26,18 @@ func CreateUser(u *model.User) (err error) {
 	}
 	return err
 }
+
+func GetUser(id int) (user model.User, err error) {
+	user = model.User{}
+	cmd := `select id, uuid, name, email, password, created_at 
+	from users where id = ?`
+	err = Db.QueryRow(cmd, id).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&user.Email,
+		&user.PassWord,
+		&user.CreatedAt,
+	)
+	return user, err
+}
