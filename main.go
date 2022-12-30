@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-todo/app/models"
-	"go-todo/config"
 	"go-todo/model"
 	"html/template"
 	"log"
@@ -47,12 +46,14 @@ func start(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", start)
-	fmt.Println(config.Config.Port)
-	fmt.Println(models.Db)
-	log.Printf("connect to http://localhost:%s/", defaultPort)
-	http.ListenAndServe(":8090", nil)
-	u := &model.User()
+	u := &model.User{}
 	u.Name = "test"
 	u.Email = "test@test.com"
-	u.Password = "test"
+	u.PassWord = "test"
+	fmt.Println(u)
+	models.CreateUser(u)
+	// fmt.Println(config.Config.Port)
+	// fmt.Println(models.Db)
+	// log.Printf("connect to http://localhost:%s/", defaultPort)
+	http.ListenAndServe(":8090", nil)
 }

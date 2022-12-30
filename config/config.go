@@ -1,13 +1,9 @@
 package config
 
 import (
-	"crypto/sha1"
-	"fmt"
 	"go-todo/model"
 	"go-todo/utils"
 	"log"
-
-	"github.com/google/uuid"
 
 	"gopkg.in/go-ini/ini.v1"
 )
@@ -36,16 +32,4 @@ func LoadConfig() {
 		DbName:    cfg.Section("db").Key("name").String(),
 		LogFile:   cfg.Section("web").Key("logfile").String(),
 	}
-}
-
-// generate uuid used when creating users table in sqlite3
-func createUUID() (uuidobj uuid.UUID) {
-	uuidobj, _ = uuid.NewUUID()
-	return uuidobj
-}
-
-// generate password used when creating users table in sqlite3
-func Encrypt(plaintext string) (cryptext string) {
-	cryptext = fmt.Sprintf("%x", sha1.Sum([]byte(plaintext)))
-	return cryptext
 }

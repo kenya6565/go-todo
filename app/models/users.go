@@ -7,7 +7,7 @@ import (
 )
 
 // generating users table in sqlite3 database
-func (u *model.User) CreateUser() (err error) {
+func CreateUser(u *model.User) (err error) {
 	cmd := `insert into users(
 		uuid,
 		name,
@@ -15,7 +15,7 @@ func (u *model.User) CreateUser() (err error) {
     password,
 		created_at) values (?, ?, ?, ?, ?)`
 	_, err = Db.Exec(cmd,
-		createUUID,
+		createUUID(),
 		u.Name,
 		u.Email,
 		Encrypt(u.PassWord),
