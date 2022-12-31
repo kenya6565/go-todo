@@ -24,7 +24,8 @@ func init() {
 	models.CreateTodo(&u, "これはtestです")
 	// t, _ := models.GetTodo(6)
 	// fmt.Println(t)
-	todos, err := models.GetTodos()
+	// todos, err := models.GetTodos()
+	todos, err := models.GetTodosByUser(&u)
 	fmt.Println(err)
 	for _, v := range todos {
 		fmt.Println(v)
