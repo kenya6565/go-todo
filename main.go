@@ -20,13 +20,16 @@ func init() {
 	// u := &model.User{Name: "test", Email: "test@example.com", PassWord: "test@example.com"}
 	// fmt.Println(u)
 	// models.CreateUser(u)
-	u, _ := models.GetUser(2)
-	models.CreateTodo(&u, "これはtestです")
+	// u, _ := models.GetUser(2)
+	// models.CreateTodo(&u, "これはtestです")
 	// t, _ := models.GetTodo(6)
 	// fmt.Println(t)
 	// todos, err := models.GetTodos()
-	todos, err := models.GetTodosByUser(&u)
-	fmt.Println(err)
+	t, _ := models.GetTodo(1)
+
+	models.UpdateTodo(&t, "todoを更新したよ3")
+	todos, _ := models.GetTodos()
+	// fmt.Println(err)
 	for _, v := range todos {
 		fmt.Println(v)
 	}
