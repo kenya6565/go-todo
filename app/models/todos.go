@@ -90,3 +90,13 @@ func UpdateTodo(t *model.Todo, content string) (err error) {
 	}
 	return err
 }
+
+func DeleteTodo(todoId int) (err error) {
+	cmd := `delete from todos where id =?`
+	_, err = Db.Exec(cmd,
+		todoId)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return err
+}

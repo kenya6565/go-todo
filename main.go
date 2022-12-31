@@ -25,9 +25,10 @@ func init() {
 	// t, _ := models.GetTodo(6)
 	// fmt.Println(t)
 	// todos, err := models.GetTodos()
-	t, _ := models.GetTodo(1)
+	// t, _ := models.GetTodo(1)
+	models.DeleteTodo(4)
 
-	models.UpdateTodo(&t, "todoを更新したよ3")
+	// models.UpdateTodo(&t, "todoを更新したよ3")
 	todos, _ := models.GetTodos()
 	// fmt.Println(err)
 	for _, v := range todos {
