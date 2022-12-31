@@ -35,5 +35,5 @@ func top(w http.ResponseWriter, req *http.Request) {
 	// if err := tpl.Execute(w, companyStruct); err != nil {
 	// 	panic(err.Error())
 	// }
-	generateHTML(w, companyStruct, "layout", "top")
+	generateHTML(w, companyStruct, "layout", "public_navbar", "top")
 }
