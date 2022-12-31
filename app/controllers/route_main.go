@@ -11,10 +11,6 @@ import (
 
 var tpl *template.Template
 
-func init() {
-	tpl = template.Must(template.ParseFiles("./app/views/templates/top.html"))
-}
-
 func convertJson(file *os.File) []model.Company {
 	var companyObj []model.Company
 	decoder := json.NewDecoder(file)
@@ -36,7 +32,8 @@ func top(w http.ResponseWriter, req *http.Request) {
 	defer file.Close()
 
 	companyStruct := convertJson(file)
-	if err := tpl.Execute(w, companyStruct); err != nil {
-		panic(err.Error())
-	}
+	// if err := tpl.Execute(w, companyStruct); err != nil {
+	// 	panic(err.Error())
+	// }
+	generateHTML(w, companyStruct, "layout", "top")
 }
