@@ -13,6 +13,7 @@ type ConfigList struct {
 	SQLDriver string
 	DbName    string
 	LogFile   string
+	Static    string
 }
 
 type User struct {
