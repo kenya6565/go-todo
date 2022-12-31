@@ -25,6 +25,7 @@ func convertJson(file *os.File) []model.Company {
 	return companyObj
 }
 
+// pass html elements generated from .json file
 func top(w http.ResponseWriter, req *http.Request) {
 	// Open Json file
 	file, err := os.Open("article.json")
