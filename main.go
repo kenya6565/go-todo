@@ -2,8 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
-	"go-todo/app/models"
+	"go-todo/app/controllers"
 	"go-todo/model"
 	"html/template"
 	"log"
@@ -26,14 +25,14 @@ func init() {
 	// fmt.Println(t)
 	// todos, err := models.GetTodos()
 	// t, _ := models.GetTodo(1)
-	models.DeleteTodo(4)
+	// models.DeleteTodo(4)
 
 	// models.UpdateTodo(&t, "todoを更新したよ3")
-	todos, _ := models.GetTodos()
+	// todos, _ := models.GetTodos()
 	// fmt.Println(err)
-	for _, v := range todos {
-		fmt.Println(v)
-	}
+	// for _, v := range todos {
+	// 	fmt.Println(v)
+	// }
 
 	// fmt.Println(t)
 	// u.Name = "test2"
@@ -74,6 +73,6 @@ func main() {
 	http.HandleFunc("/", start)
 	// fmt.Println(config.Config.Port)
 	// fmt.Println(models.Db)
-	// log.Printf("connect to http://localhost:%s/", defaultPort)
-	http.ListenAndServe(":8090", nil)
+	log.Printf("connect to http://localhost:%s/", defaultPort)
+	controllers.StartMainServer()
 }
