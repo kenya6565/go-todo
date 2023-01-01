@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"fmt"
+	"go-todo/app/models"
 	"go-todo/config"
+	"go-todo/model"
 	"log"
 	"net/http"
 	"text/template"
@@ -19,6 +21,20 @@ func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 
 	templates := template.Must(template.ParseFiles(files...))
 	templates.ExecuteTemplate(w, "layout", data)
+}
+
+// create a session judging by a  saved cookie
+func session(w http.ResponseWriter, r *http.Request) (session model.Session, err error) {
+	// get a saved cookie
+	cookie, err := r.Cookie("_cookie")
+	if err != nil {
+		session = model.Session{UUID: cookie.Value}
+		if ok, _ := models.CheckSession(&session); !ok {
+			err = fmt.Errorf("Invalid session")
+		}
+	}
+	return session, err
+
 }
 
 func StartMainServer() error {
