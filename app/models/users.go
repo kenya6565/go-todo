@@ -107,3 +107,24 @@ func CreateSession(u *model.User) (session model.Session, err error) {
 	)
 	return session, err
 }
+
+func CheckSession(session *model.Session) (valid bool, err error) {
+	cmd := `select id, uuid, email, user_id, created_at from sessions where uuid = ?`
+	err = Db.QueryRow(cmd, session.UUID).Scan(
+		&session.ID,
+		&session.UUID,
+		&session.Email,
+		&session.UserID,
+		&session.CreatedAt,
+	)
+	if err != nil {
+		valid = false
+		return
+	}
+	if session.ID != 0 {
+		valid = true
+
+	}
+	return valid, err
+
+}
