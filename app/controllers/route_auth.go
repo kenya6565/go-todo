@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"go-todo/app/models"
 	"go-todo/model"
 	"log"
@@ -29,19 +28,36 @@ func signup(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// show login page
 func login(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		generateHTML(w, nil, "layout", "public_navbar", "login")
-	} else if r.Method == "POST" {
-		err := r.ParseForm()
+	generateHTML(w, nil, "layout", "public_navbar", "login")
+}
+
+func authenticate(w http.ResponseWriter, r *http.Request) {
+	inputted_email := r.PostFormValue("email")
+
+	// create a user, using an inputted email from a login form
+	user, err := models.GetUserByEmail(inputted_email)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/login", 302)
+	}
+
+	// save a user session in a cookie when the inputted password is correct
+	if user.PassWord == models.Encrypt(r.PostFormValue("password")) {
+		session, err := models.CreateSession(&user)
 		if err != nil {
-			log.Fatalln(err)
-		}
-		email := r.PostFormValue("email")
-		if _, err := models.GetUserByEmail(email); err != nil {
 			log.Println(err)
 		}
-		fmt.Println("成功")
+
+		cookie := http.Cookie{
+			Name:     "_cookie",
+			Value:    session.UUID,
+			HttpOnly: true,
+		}
+		http.SetCookie(w, &cookie)
+		http.Redirect(w, r, "/", 302)
+	} else {
+		http.Redirect(w, r, "/login", 302)
 	}
-	http.Redirect(w, r, "/", 302)
 }

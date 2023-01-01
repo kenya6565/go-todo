@@ -28,6 +28,8 @@ func StartMainServer() error {
 	http.HandleFunc("/", top)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
+	// executed when posting login form
+	http.HandleFunc("/authenticate", authenticate)
 
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	return http.ListenAndServe(":"+defaultPort, nil)
