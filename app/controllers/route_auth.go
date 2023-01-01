@@ -21,9 +21,13 @@ func signup(w http.ResponseWriter, r *http.Request) {
 			PassWord: r.PostFormValue("password"),
 		}
 		if err := models.CreateUser(&user); err != nil {
-			log.Println(err) 
+			log.Println(err)
 		}
 	}
 	http.Redirect(w, r, "/", 302)
 
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+	generateHTML(w, nil, "layout", "public_navbar", "login")
 }

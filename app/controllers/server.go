@@ -27,6 +27,7 @@ func StartMainServer() error {
 	http.Handle("/static/", http.StripPrefix("/static/", files))
 	http.HandleFunc("/", top)
 	http.HandleFunc("/signup", signup)
+	http.HandleFunc("/login", login)
 
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	return http.ListenAndServe(":"+defaultPort, nil)
