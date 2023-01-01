@@ -15,8 +15,9 @@ var Db *sql.DB
 var err error
 
 const (
-	tableNameUser = "users"
-	tableNameTodo = "todos"
+	tableNameUser    = "users"
+	tableNameTodo    = "todos"
+	tableNameSession = "session"
 )
 
 func init() {
@@ -42,6 +43,14 @@ func init() {
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`, tableNameTodo)
 
 	Db.Exec(cmdT)
+
+	cmdS := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		uuid STRING NOT NULL UNIQUE,
+		email STRING,
+    user_id INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`, tableNameSession)
+	Db.Exec(cmdS)
 }
 
 // generate uuid used when creating users table in sqlite3
