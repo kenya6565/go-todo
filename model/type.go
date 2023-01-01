@@ -31,3 +31,11 @@ type Todo struct {
 	UserID    int
 	CreatedAt time.Time
 }
+
+type Session struct {
+	ID        int
+	UUID      string
+	Email     string
+	UserID    string
+	CreatedAt time.Time
+}

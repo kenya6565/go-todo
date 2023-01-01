@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"go-todo/app/models"
 	"go-todo/model"
 	"log"
@@ -29,5 +30,18 @@ func signup(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	generateHTML(w, nil, "layout", "public_navbar", "login")
+	if r.Method == "GET" {
+		generateHTML(w, nil, "layout", "public_navbar", "login")
+	} else if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Fatalln(err)
+		}
+		email := r.PostFormValue("email")
+		if _, err := models.GetUserByEmail(email); err != nil {
+			log.Println(err)
+		}
+		fmt.Println("成功")
+	}
+	http.Redirect(w, r, "/", 302)
 }

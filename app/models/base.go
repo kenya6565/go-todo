@@ -17,7 +17,7 @@ var err error
 const (
 	tableNameUser    = "users"
 	tableNameTodo    = "todos"
-	tableNameSession = "session"
+	tableNameSession = "sessions"
 )
 
 func init() {

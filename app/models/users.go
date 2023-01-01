@@ -65,3 +65,45 @@ func DeleteUser(u *model.User) (err error) {
 	}
 	return err
 }
+
+func GetUserByEmail(email string) (user model.User, err error) {
+	user = model.User{}
+	cmd := `select id, uuid, name, email, password, created_at from users where email =?`
+	err = Db.QueryRow(cmd, email).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&email,
+		&user.PassWord,
+		&user.CreatedAt,
+	)
+	return user, err
+}
+
+func CreateSession(u *model.User) (session model.Session, err error) {
+	session = model.Session{}
+	cmd1 := `insert into sessions(
+		uuid,
+    email,
+		user_id,
+		created_at) values (?, ?, ?, ?)`
+	_, err = Db.Exec(cmd1,
+		createUUID(),
+		u.Email,
+		u.ID,
+		time.Now())
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	cmd2 := `select id, uuid, email, user_id, created_at from sessions where email = ? and user_id = ?`
+	err = Db.QueryRow(cmd2, u.Email, u.ID).Scan(
+		&session.ID,
+		&session.UUID,
+		&session.Email,
+		&session.UserID,
+		&session.CreatedAt,
+	)
+	return session, err
+}
