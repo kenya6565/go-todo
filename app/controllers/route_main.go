@@ -23,19 +23,27 @@ func convertJson(file *os.File) []model.Company {
 
 // pass html elements generated from .json file
 func top(w http.ResponseWriter, req *http.Request) {
-	// Open Json file
-	file, err := os.Open("article.json")
-	if err != nil {
-		panic(err.Error())
-	}
-	// Close at the end of start method
-	defer file.Close()
+	_, err := session(w, req)
 
-	companyStruct := convertJson(file)
-	// if err := tpl.Execute(w, companyStruct); err != nil {
-	// 	panic(err.Error())
-	// }
-	generateHTML(w, companyStruct, "layout", "public_navbar", "top")
+	// go to a root page when a session does not exist
+	if err != nil {
+		// Open Json file
+		file, err := os.Open("article.json")
+		if err != nil {
+			panic(err.Error())
+		}
+		// Close at the end of start method
+		defer file.Close()
+
+		companyStruct := convertJson(file)
+		// if err := tpl.Execute(w, companyStruct); err != nil {
+		// 	panic(err.Error())
+		// }
+		generateHTML(w, companyStruct, "layout", "public_navbar", "top")
+
+	} else {
+		http.Redirect(w, req, "/todos", 302)
+	}
 }
 
 func index(w http.ResponseWriter, req *http.Request) {
