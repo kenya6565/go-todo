@@ -23,7 +23,7 @@ func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 	templates.ExecuteTemplate(w, "layout", data)
 }
 
-// create a session judging by a  saved cookie
+// create a session judging by a saved cookie
 func session(w http.ResponseWriter, r *http.Request) (session model.Session, err error) {
 	// get a saved cookie
 	cookie, err := r.Cookie("_cookie")
@@ -34,7 +34,6 @@ func session(w http.ResponseWriter, r *http.Request) (session model.Session, err
 		}
 	}
 	return session, err
-
 }
 
 func StartMainServer() error {
@@ -44,8 +43,12 @@ func StartMainServer() error {
 	http.HandleFunc("/", top)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
+
 	// executed when posting login form
 	http.HandleFunc("/authenticate", authenticate)
+
+	// only the user who can login can access
+	http.HandleFunc("/todos", index)
 
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	return http.ListenAndServe(":"+defaultPort, nil)

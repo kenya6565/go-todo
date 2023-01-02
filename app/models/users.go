@@ -123,7 +123,6 @@ func CheckSession(session *model.Session) (valid bool, err error) {
 	}
 	if session.ID != 0 {
 		valid = true
-
 	}
 	return valid, err
 

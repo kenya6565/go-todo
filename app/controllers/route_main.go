@@ -37,3 +37,12 @@ func top(w http.ResponseWriter, req *http.Request) {
 	// }
 	generateHTML(w, companyStruct, "layout", "public_navbar", "top")
 }
+
+func index(w http.ResponseWriter, req *http.Request) {
+	_, err := session(w, req)
+	if err != nil {
+		http.Redirect(w, req, "/", 302)
+	} else {
+		generateHTML(w, nil, "layout", "private_navbar", "index")
+	}
+}
