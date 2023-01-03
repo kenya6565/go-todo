@@ -28,6 +28,7 @@ func session(w http.ResponseWriter, r *http.Request) (session model.Session, err
 	// get a saved cookie
 	cookie, err := r.Cookie("_cookie")
 	if err != nil {
+		log.Println(err)
 		session = model.Session{UUID: cookie.Value}
 		if ok, _ := models.CheckSession(&session); !ok {
 			err = fmt.Errorf("Invalid session")
@@ -46,6 +47,8 @@ func StartMainServer() error {
 
 	// executed when posting login form
 	http.HandleFunc("/authenticate", authenticate)
+
+	http.HandleFunc("/logout", logout)
 
 	// only the user who can login can access
 	http.HandleFunc("/todos", index)

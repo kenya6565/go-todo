@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"go-todo/app/models"
 	"go-todo/model"
 	"log"
@@ -43,6 +44,20 @@ func login(w http.ResponseWriter, req *http.Request) {
 	} else {
 		http.Redirect(w, req, "/todos", 302)
 	}
+}
+
+func logout(w http.ResponseWriter, req *http.Request) {
+	cookie, err := req.Cookie("_cookie")
+	if err != nil {
+		log.Println(err)
+	}
+
+	if err != http.ErrNoCookie {
+		session := model.Session{UUID: cookie.Value}
+		fmt.Println("session", session)
+		models.DeleteSessionByUUID(&session)
+	}
+	http.Redirect(w, req, "/login", 302)
 }
 
 func authenticate(w http.ResponseWriter, r *http.Request) {
