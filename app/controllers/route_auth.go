@@ -60,6 +60,7 @@ func logout(w http.ResponseWriter, req *http.Request) {
 	http.Redirect(w, req, "/login", 302)
 }
 
+// executed when trying to login from login button
 func authenticate(w http.ResponseWriter, r *http.Request) {
 	inputted_email := r.PostFormValue("email")
 

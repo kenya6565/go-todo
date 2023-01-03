@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"go-todo/app/models"
 	"go-todo/model"
 	"log"
 	"net/http"
@@ -49,10 +50,16 @@ func top(w http.ResponseWriter, req *http.Request) {
 }
 
 func index(w http.ResponseWriter, req *http.Request) {
-	_, err := session(w, req)
+	session, err := session(w, req)
 	if err != nil {
 		http.Redirect(w, req, "/", 302)
 	} else {
-		generateHTML(w, nil, "layout", "private_navbar", "index")
+		user, err := models.GetUserBySession(&session)
+		if err != nil {
+			log.Println(err)
+		}
+		todos, _ := models.GetTodosByUser(&user)
+		user.Todos = todos
+		generateHTML(w, user, "layout", "private_navbar", "index")
 	}
 }

@@ -23,6 +23,7 @@ type User struct {
 	Email     string
 	PassWord  string
 	CreatedAt time.Time
+	Todos     []Todo
 }
 
 type Todo struct {
