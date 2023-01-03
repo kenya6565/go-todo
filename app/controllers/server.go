@@ -27,7 +27,7 @@ func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 func session(w http.ResponseWriter, r *http.Request) (session model.Session, err error) {
 	// get a saved cookie
 	cookie, err := r.Cookie("_cookie")
-	if err != nil {
+	if err == nil {
 		log.Println(err)
 		session = model.Session{UUID: cookie.Value}
 		if ok, _ := models.CheckSession(&session); !ok {

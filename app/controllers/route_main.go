@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"go-todo/model"
 	"log"
 	"net/http"
@@ -24,6 +25,7 @@ func convertJson(file *os.File) []model.Company {
 // pass html elements generated from .json file
 func top(w http.ResponseWriter, req *http.Request) {
 	_, err := session(w, req)
+	fmt.Println(err)
 
 	// go to a root page when a session does not exist
 	if err != nil {

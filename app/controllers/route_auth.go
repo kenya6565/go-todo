@@ -13,7 +13,7 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		_, err := session(w, r)
 
 		if err != nil {
-			generateHTML(w, nil, "layout", "public_navbar", "login")
+			generateHTML(w, nil, "layout", "public_navbar", "signup")
 		} else {
 			http.Redirect(w, r, "/todos", 302)
 		}
