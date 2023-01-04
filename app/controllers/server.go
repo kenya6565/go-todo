@@ -53,6 +53,7 @@ func StartMainServer() error {
 	// only the user who can login can access
 	http.HandleFunc("/todos", index)
 	http.HandleFunc("/todos/new", todoNew)
+	http.HandleFunc("/todos/save", todoSave)
 
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	return http.ListenAndServe(":"+defaultPort, nil)
