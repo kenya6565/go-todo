@@ -7,6 +7,8 @@ import (
 	"go-todo/model"
 	"log"
 	"net/http"
+	"regexp"
+	"strconv"
 	"text/template"
 )
 
@@ -35,6 +37,28 @@ func session(w http.ResponseWriter, r *http.Request) (session model.Session, err
 		}
 	}
 	return session, err
+}
+
+var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)")
+
+// type http.HandlerFunc returns func(ResponseWriter, *Request)
+func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// /todos/edit/1
+		q := validPath.FindStringSubmatch(r.URL.Path)
+
+		if q == nil {
+			http.NotFound(w, r)
+			return
+		}
+
+		qi, err := strconv.Atoi(q[2])
+		if err != nil {
+			http.NotFound(w, r)
+			return
+		}
+		fn(w, r, qi)
+	}
 }
 
 func StartMainServer() error {
