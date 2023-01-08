@@ -93,3 +93,20 @@ func todoSave(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/todos", 302)
 	}
 }
+
+func todoEdit(w http.ResponseWriter, req *http.Request, id int) {
+	session, err := session(w, req)
+	if err != nil {
+		http.Redirect(w, req, "/login", 302)
+	} else {
+		_, err := models.GetUserBySession(&session)
+		if err != nil {
+			log.Println(err)
+		}
+		t, err := models.GetTodo(id)
+		if err != nil {
+			log.Println(err)
+		}
+		generateHTML(w, t, "layout", "private_navbar", "todo_edit")
+	}
+}

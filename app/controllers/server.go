@@ -79,6 +79,8 @@ func StartMainServer() error {
 	http.HandleFunc("/todos/new", todoNew)
 	http.HandleFunc("/todos/save", todoSave)
 
+	http.HandleFunc("/todos/edit/", parseURL(todoEdit))
+
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	return http.ListenAndServe(":"+defaultPort, nil)
 }
