@@ -39,12 +39,14 @@ func session(w http.ResponseWriter, r *http.Request) (session model.Session, err
 	return session, err
 }
 
+// start with either edit or update
+// end with more than one integer
 var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)")
 
 // type http.HandlerFunc returns func(ResponseWriter, *Request)
 func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// /todos/edit/1
+		// r.URL.Path = "/todos/edit/1"
 		q := validPath.FindStringSubmatch(r.URL.Path)
 
 		if q == nil {
