@@ -44,6 +44,7 @@ func session(w http.ResponseWriter, r *http.Request) (session model.Session, err
 var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)")
 
 // type http.HandlerFunc returns func(ResponseWriter, *Request)
+// this args are the same as todoEdit()
 func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// r.URL.Path = "/todos/edit/1"
@@ -53,12 +54,13 @@ func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc
 			http.NotFound(w, r)
 			return
 		}
-
+		// qi = id of validPath
 		qi, err := strconv.Atoi(q[2])
 		if err != nil {
 			http.NotFound(w, r)
 			return
 		}
+		// todoEdit(w http.ResponseWriter, req *http.Request, id int)
 		fn(w, r, qi)
 	}
 }
@@ -81,6 +83,8 @@ func StartMainServer() error {
 	http.HandleFunc("/todos/new", todoNew)
 	http.HandleFunc("/todos/save", todoSave)
 
+	// 1, parseURL()
+	// 2, todoEdit()
 	http.HandleFunc("/todos/edit/", parseURL(todoEdit))
 
 	log.Printf("connect to http://localhost:%s/", defaultPort)
