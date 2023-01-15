@@ -131,5 +131,22 @@ func todoUpdate(w http.ResponseWriter, req *http.Request, id int) {
 		}
 		http.Redirect(w, req, "/todos", 302)
 	}
+}
 
+func todoDelete(w http.ResponseWriter, req *http.Request, id int) {
+	session, err := session(w, req)
+	if err != nil {
+		http.Redirect(w, req, "/login", 302)
+	} else {
+		_, err = models.GetUserBySession(&session)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		if err := models.DeleteTodo(id); err != nil {
+			log.Fatalln(err)
+		}
+
+		http.Redirect(w, req, "/todos", 302)
+	}
 }

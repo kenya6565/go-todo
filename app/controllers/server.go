@@ -41,7 +41,7 @@ func session(w http.ResponseWriter, r *http.Request) (session model.Session, err
 
 // start with either edit or update
 // end with more than one integer
-var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)")
+var validPath = regexp.MustCompile("^/todos/(edit|update|delete)/([0-9]+)")
 
 // type http.HandlerFunc returns func(ResponseWriter, *Request)
 // this args are the same as todoEdit()
@@ -87,6 +87,7 @@ func StartMainServer() error {
 	// 2, todoEdit()
 	http.HandleFunc("/todos/edit/", parseURL(todoEdit))
 	http.HandleFunc("/todos/update/", parseURL(todoUpdate))
+	http.HandleFunc("/todos/delete/", parseURL(todoDelete))
 
 	log.Printf("connect to http://localhost:%s/", defaultPort)
 	return http.ListenAndServe(":"+defaultPort, nil)
